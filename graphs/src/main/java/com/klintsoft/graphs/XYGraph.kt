@@ -155,8 +155,8 @@ fun XYGraph(
             )
 
             val coordinates = mutableListOf<PointF>()
-            val controlPoints1 = mutableListOf<PointF>()
-            val controlPoints2 = mutableListOf<PointF>()
+            //val controlPoints1 = mutableListOf<PointF>()
+            //val controlPoints2 = mutableListOf<PointF>()
 
 
             //Adjust point values to Canvas Offset values
@@ -183,21 +183,26 @@ fun XYGraph(
             }
             if (showLine) {
                 if (curveStyle == CurveStyle.BICUBIC) {
+                    val splineMethod = BezierSpline()
                     /** calculating the Bicubic Bezier control points */
-                    for (i in 1 until coordinates.size) {
-                        controlPoints1.add(
+                    val controlPoints = splineMethod.getCurveControlPoints(coordinates)
+                    val controlPoints1 = controlPoints.first.toMutableList()
+                    val controlPoints2 = controlPoints.second.toMutableList()
+
+                   /* for (i in 1 until coordinates.size) {
+                        *//*controlPoints1.add(
                             PointF(
                                 (coordinates[i].x + coordinates[i - 1].x) / 2,
                                 coordinates[i - 1].y
                             )
-                        )
+                        )*//*
                         controlPoints2.add(
                             PointF(
                                 (coordinates[i].x + coordinates[i - 1].x) / 2,
                                 coordinates[i].y
                             )
                         )
-                    }
+                    }*/
                     /** Drawing the path */
                     val stroke = Path().apply {
                         reset()
